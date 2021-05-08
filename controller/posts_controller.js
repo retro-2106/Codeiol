@@ -3,12 +3,14 @@ const Comment = require('../models/comment')
 
 module.exports.create= async function(req, res){
         try{
-                await Post.create({
+              let post =  await Post.create({
                 content: req.body.content,
                 user: req.user._id
             });
 
             if(req.xhr){
+                // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+            post = await post.populate('user', 'name').execPopulate();
                 return res.status(200).json({
                     data: {
                         post: post
@@ -22,7 +24,7 @@ module.exports.create= async function(req, res){
         }catch(err){
             console.log('Error', err);
             req.flash('error', err);
-            return;
+            return res.redirect('back');
         }
         
 }
@@ -70,6 +72,6 @@ module.exports.destroy = async function(req, res){
     }catch(err){
         req.flash('error', 'post creating post!!')
         console.log('Error', err);
-        return;
+        return res.redirect('back');
     }
 }
