@@ -3,7 +3,7 @@ const nodeMailer = require('../config/nodemailer');
 
 //modules.export = newComment  this is another alternative
 exports.newComment = (comment) => {
-    let htmlString = nodeMailer.renderTemplate({comment: comment}, '/comments/new_comment.ejs');
+    let htmlString = nodeMailer.renderTemplate({comment: comment}, 'mailers/comments/new_comment.ejs');
 
     nodeMailer.transporter.sendMail({
         from: 'ashish.cool2106@gmail.com',
